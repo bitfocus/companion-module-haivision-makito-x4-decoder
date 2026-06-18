@@ -19,6 +19,9 @@ module.exports = function (self) {
 				down: [
 					{
 						actionId: 'decoder_start',
+						options: {
+							deviceNumber: '0',
+						},
 					},
 				],
 				up: [],
@@ -28,7 +31,8 @@ module.exports = function (self) {
 			{
 				feedbackId: 'decoder_status',
 				options: {
-					status: 'running',
+					deviceNumber: '0',
+					status: '2',
 				},
 				style: {
 					bgcolor: combineRgb(0, 255, 0),
@@ -53,6 +57,9 @@ module.exports = function (self) {
 				down: [
 					{
 						actionId: 'decoder_stop',
+						options: {
+							deviceNumber: '0',
+						},
 					},
 				],
 				up: [],
@@ -62,7 +69,8 @@ module.exports = function (self) {
 			{
 				feedbackId: 'decoder_status',
 				options: {
-					status: 'stopped',
+					deviceNumber: '0',
+					status: '0',
 				},
 				style: {
 					bgcolor: combineRgb(255, 0, 0),
@@ -120,6 +128,9 @@ module.exports = function (self) {
 				down: [
 					{
 						actionId: 'decoder_restart',
+						options: {
+							deviceNumber: '0',
+						},
 					},
 				],
 				up: [],
@@ -133,7 +144,7 @@ module.exports = function (self) {
 		category: 'Decoder Status',
 		name: 'Signal Present',
 		style: {
-			text: 'SIGNAL\\n$(makitox4:decoder_signal)',
+			text: 'SIGNAL\\n$(makitox4:decoder0_signal)',
 			size: '14',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(50, 50, 50),
@@ -142,6 +153,9 @@ module.exports = function (self) {
 		feedbacks: [
 			{
 				feedbackId: 'decoder_signal_present',
+				options: {
+					deviceNumber: '0',
+				},
 				style: {
 					bgcolor: combineRgb(0, 255, 0),
 					color: combineRgb(0, 0, 0),
@@ -150,14 +164,14 @@ module.exports = function (self) {
 		],
 	})
 
-	// Add decoder thumbnail preset
+	// Add decoder thumbnail preset for each decoder (indices 0-3, shown as 1-4)
 	for (let i = 0; i < 4; i++) {
 		presets.push({
 			type: 'button',
 			category: 'Decoder Thumbnails',
 			name: `Decoder ${i + 1} Thumbnail`,
 			style: {
-				text: `DEC ${i + 1}\\n$(makitox4:decoder${i + 1}_state)`,
+				text: `DEC ${i + 1}\\n$(makitox4:decoder${i}_state)`,
 				size: '14',
 				color: combineRgb(255, 255, 255),
 				bgcolor: combineRgb(0, 0, 0),
@@ -221,7 +235,7 @@ module.exports = function (self) {
 		category: 'System',
 		name: 'Device Info',
 		style: {
-			text: '$(makitox4:device_name)\\n$(makitox4:device_model)',
+			text: '$(makitox4:device_type)\\n$(makitox4:device_serial)',
 			size: '7',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(0, 0, 0),
@@ -235,7 +249,7 @@ module.exports = function (self) {
 		category: 'Status',
 		name: 'Decoder Status',
 		style: {
-			text: 'DEC: $(makitox4:decoder_state)\\n$(makitox4:decoder_resolution)@$(makitox4:decoder_framerate)fps',
+			text: 'DEC: $(makitox4:decoder0_state)\\n$(makitox4:decoder0_video_input_resolution)@$(makitox4:decoder0_video_framerate)fps',
 			size: '7',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(0, 0, 0),
@@ -245,7 +259,8 @@ module.exports = function (self) {
 			{
 				feedbackId: 'decoder_status',
 				options: {
-					status: 'running',
+					deviceNumber: '0',
+					status: '2',
 				},
 				style: {
 					bgcolor: combineRgb(0, 100, 0),
@@ -254,7 +269,8 @@ module.exports = function (self) {
 			{
 				feedbackId: 'decoder_status',
 				options: {
-					status: 'error',
+					deviceNumber: '0',
+					status: '-1',
 				},
 				style: {
 					bgcolor: combineRgb(200, 0, 0),
@@ -268,7 +284,7 @@ module.exports = function (self) {
 		category: 'Status',
 		name: 'Latency Monitor',
 		style: {
-			text: 'LATENCY\\n$(makitox4:decoder_latency) ms',
+			text: 'LATENCY\\n$(makitox4:decoder0_video_latency) ms',
 			size: '14',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(0, 0, 0),

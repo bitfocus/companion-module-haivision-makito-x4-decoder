@@ -12,11 +12,11 @@ Status legend: 🔴 not started · 🟡 in progress · ✅ done
 
 Goal: a correct, documented build that passes the Bitfocus `module-checks` and is submitted to the module store. These are mostly bug fixes and release-readiness, so they ship as patch releases.
 
-- 🔴 **Write real `companion/HELP.md`.** Currently placeholder text. Document the connection fields (IP, port, username/password, polling) and the main action/feedback/preset groups. *Quality gate for store submission.*
-- 🔴 **Fix preset variable references.** Several presets in `src/presets.js` use a non-existent `makitox4:` namespace and undefined variable IDs (`decoder_state`, `decoder_signal`, `device_name`, `device_model`, `decoder_resolution`, `decoder_framerate`, `decoder_latency`). Re-point them at the real indexed variables (`decoderN_state`, etc.) and the actual connection label so presets render data instead of blanks.
-- 🔴 **Fix status option types.** Some preset/feedback `status` options use strings (`'running'`, `'stopped'`, `'error'`) while the `decoder_status` feedback compares numeric state codes (`0/1/2/-1`). Align on the numeric codes.
-- 🔴 **Fix `select_decoder_source`.** It reads `self.config.deviceNumber`, which is never a configured field (always falls back to `'1'`). It should use the action's `deviceNumber` dropdown like the other decoder actions.
-- 🔴 **Reconcile preview variables.** `getPreviewSettings()` writes `preview_service` / `preview_port` / `preview_quality`, but `src/variables.js` only defines `preview_enabled`. Define what's written (or write what's defined) so no undefined-variable warnings occur.
+- ✅ **Write real `companion/HELP.md`.** Documents the connection fields and the action/feedback/variable/preset groups.
+- ✅ **Fix preset variable references.** Presets in `src/presets.js` now point at the real indexed variables (`decoder0_state`, `decoder0_video_input_resolution`, `decoder0_video_latency`, `decoder0_signal`, `device_type`, `device_serial`).
+- ✅ **Fix status option types.** Preset `decoder_status` feedbacks now use the numeric state codes (`2` active, `0` stopped, `-1` error) the feedback actually compares against.
+- ✅ **Fix `select_decoder_source`.** Now uses the action's `deviceNumber` dropdown instead of the non-existent `self.config.deviceNumber`.
+- ✅ **Reconcile preview variables.** `src/variables.js` now defines `preview_service` / `preview_port` / `preview_quality` to match what `getPreviewSettings()` writes.
 - 🔴 **Register module + submit `1.0.1` to the store** following [`RELEASING.md`](./RELEASING.md).
 
 ---
