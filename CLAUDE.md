@@ -128,3 +128,4 @@ When touching presets/feedbacks/variables, prefer aligning everything on the ind
 - CI runs on every push via the shared bitfocus module-checks workflow — keep `companion/manifest.json` valid (id, runtime type `node22`, entrypoint `../index.js`).
 - Dependabot updates npm dependencies daily (`.github/dependabot.yml`).
 - Bump `version` in **both** `package.json` and `companion/manifest.json` together when releasing.
+- **Releasing:** the full process (version bump → tag `vX.Y.Z` → submit in the Bitfocus Developer Portal) lives in [`RELEASING.md`](./RELEASING.md). Planned work is tracked in [`ROADMAP.md`](./ROADMAP.md).
