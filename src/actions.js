@@ -69,6 +69,7 @@ module.exports = function (self) {
 		select_decoder_source: {
 			name: 'Select Decoder Source',
 			options: [
+				deviceNumberOption,
 				{
 					type: 'dropdown',
 					label: 'Source Type',
@@ -89,7 +90,7 @@ module.exports = function (self) {
 			],
 			callback: async (action) => {
 				try {
-					const deviceNum = self.config.deviceNumber || '1'
+					const deviceNum = action.options.deviceNumber
 					await self.makeRequest(`/apis/decoders/${deviceNum}/source`, 'PUT', {
 						type: action.options.sourceType,
 						source: action.options.source

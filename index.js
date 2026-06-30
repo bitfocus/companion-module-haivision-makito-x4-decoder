@@ -6,7 +6,9 @@ const UpdateVariableDefinitions = require('./src/variables')
 const UpdatePresets = require('./src/presets')
 const http = require('http')
 const https = require('https')
-const Jimp = require('jimp')
+const JimpModule = require('jimp')
+const Jimp = JimpModule.Jimp || JimpModule
+const JIMP_MIME_PNG = JimpModule.JimpMime?.png || Jimp.MIME_PNG || JimpModule.MIME_PNG || 'image/png'
 
 class MakitoX4DecoderInstance extends InstanceBase {
 	constructor(internal) {
@@ -167,10 +169,15 @@ class MakitoX4DecoderInstance extends InstanceBase {
 			// Cookie-based authentication via /apis/authentication
 			this.log('debug', 'Attempting authentication via /apis/authentication')
 
-			const authResponse = await this.makeRequest('/apis/authentication', 'POST', {
-				username: this.config.username,
-				password: this.config.password
-			}, true) // skipAuth flag to avoid auth loop
+			const authResponse = await this.makeRequest(
+				'/apis/authentication',
+				'POST',
+				{
+					username: this.config.username,
+					password: this.config.password,
+				},
+				true,
+			) // skipAuth flag to avoid auth loop
 
 			// The SessionID cookie should be automatically captured by makeRequest
 			if (this.cookies['SessionID']) {
@@ -213,11 +220,11 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				path: apiPath,
 				method: 'GET',
 				headers: {
-					'Accept': 'image/jpeg, image/png, */*',
-					'User-Agent': 'Companion/3.0'
+					Accept: 'image/jpeg, image/png, */*',
+					'User-Agent': 'Companion/3.0',
 				},
 				rejectUnauthorized: false, // Allow self-signed certificates
-				timeout: 5000
+				timeout: 5000,
 			}
 
 			// Cookie-based authentication - always send cookies if we have them
@@ -282,12 +289,12 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				path: apiPath,
 				method: method,
 				headers: {
-					'Accept': 'application/json, text/plain, */*',
+					Accept: 'application/json, text/plain, */*',
 					'Content-Type': 'application/json',
-					'User-Agent': 'Companion/3.0'
+					'User-Agent': 'Companion/3.0',
 				},
 				rejectUnauthorized: false, // Allow self-signed certificates
-				timeout: 5000
+				timeout: 5000,
 			}
 
 			// Cookie-based authentication - always send cookies if we have them
@@ -311,7 +318,7 @@ class MakitoX4DecoderInstance extends InstanceBase {
 
 				// Capture cookies from response
 				if (res.headers['set-cookie']) {
-					res.headers['set-cookie'].forEach(cookie => {
+					res.headers['set-cookie'].forEach((cookie) => {
 						const parts = cookie.split(';')[0].split('=')
 						if (parts.length === 2) {
 							this.cookies[parts[0]] = parts[1]
@@ -404,7 +411,10 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				})
 
 				this.updateStatus(InstanceStatus.Ok)
-				this.log('info', `Connected to ${status.cardType || 'Makito X4 Decoder'} (S/N: ${status.serialNumber || 'Unknown'})`)
+				this.log(
+					'info',
+					`Connected to ${status.cardType || 'Makito X4 Decoder'} (S/N: ${status.serialNumber || 'Unknown'})`,
+				)
 			}
 		} catch (error) {
 			this.updateStatus(InstanceStatus.ConnectionFailure, error.message)
@@ -453,7 +463,10 @@ class MakitoX4DecoderInstance extends InstanceBase {
 						if (this.presetListCounter && this.presetListCounter % 3 === 0) {
 							// Only fetch thumbnail if decoder is active
 							const stats = decoderStats?.stats || decoderStats
-							this.log('debug', `Decoder ${i} thumbnail check - Counter: ${this.presetListCounter}, State: ${stats?.state}`)
+							this.log(
+								'debug',
+								`Decoder ${i} thumbnail check - Counter: ${this.presetListCounter}, State: ${stats?.state}`,
+							)
 							if (stats && stats.state === 2) {
 								this.log('info', `Decoder ${i} is active (state 2), fetching thumbnail`)
 								this.getThumbnail('decoder', i)
@@ -479,22 +492,26 @@ class MakitoX4DecoderInstance extends InstanceBase {
 			this.presetListCounter++
 			this.log('debug', `Poll counter: ${this.presetListCounter}`)
 
-			if (this.presetListCounter % 5 === 0) { // Every 5th poll
+			if (this.presetListCounter % 5 === 0) {
+				// Every 5th poll
 				this.getPresetList()
 			}
 
 			// Get stream list periodically
-			if (this.presetListCounter % 3 === 0) { // Every 3rd poll
+			if (this.presetListCounter % 3 === 0) {
+				// Every 3rd poll
 				this.getStreamList()
 			}
 
 			// Get preview settings for decoders (less frequently)
-			if (this.presetListCounter % 10 === 0) { // Every 10th poll
+			if (this.presetListCounter % 10 === 0) {
+				// Every 10th poll
 				this.getPreviewSettings()
 			}
 
 			// Rebuild device choices periodically to catch name changes
-			if (this.presetListCounter % 20 === 0) { // Every 20th poll
+			if (this.presetListCounter % 20 === 0) {
+				// Every 20th poll
 				this.buildDeviceChoices()
 			}
 
@@ -553,18 +570,41 @@ class MakitoX4DecoderInstance extends InstanceBase {
 		let streamStateText = 'Unknown'
 		if (stats.streamState !== undefined) {
 			switch (stats.streamState) {
-				case 0: streamStateText = 'Unknown'; break
-				case 1: streamStateText = 'Stopped'; break
-				case 2: streamStateText = 'Listening'; break
-				case 3: streamStateText = 'Active'; break
-				case 4: streamStateText = 'Resolving'; break
-				case 5: streamStateText = 'Connecting'; break
-				case 6: streamStateText = 'Scrambled'; break
-				case 7: streamStateText = 'Securing'; break
-				case -1: streamStateText = 'Invalid'; break
-				case -2: streamStateText = 'Failed'; break
-				case -3: streamStateText = 'Unlicensed'; break
-				default: streamStateText = `Code ${stats.streamState}`
+				case 0:
+					streamStateText = 'Unknown'
+					break
+				case 1:
+					streamStateText = 'Stopped'
+					break
+				case 2:
+					streamStateText = 'Listening'
+					break
+				case 3:
+					streamStateText = 'Active'
+					break
+				case 4:
+					streamStateText = 'Resolving'
+					break
+				case 5:
+					streamStateText = 'Connecting'
+					break
+				case 6:
+					streamStateText = 'Scrambled'
+					break
+				case 7:
+					streamStateText = 'Securing'
+					break
+				case -1:
+					streamStateText = 'Invalid'
+					break
+				case -2:
+					streamStateText = 'Failed'
+					break
+				case -3:
+					streamStateText = 'Unlicensed'
+					break
+				default:
+					streamStateText = `Code ${stats.streamState}`
 			}
 		}
 
@@ -572,13 +612,26 @@ class MakitoX4DecoderInstance extends InstanceBase {
 		let multisyncStatusText = 'Unknown'
 		if (stats.multisyncStatusCode !== undefined) {
 			switch (stats.multisyncStatusCode) {
-				case 0: multisyncStatusText = 'Unset'; break
-				case 1: multisyncStatusText = 'Working'; break
-				case 2: multisyncStatusText = 'NTP Not Set'; break
-				case 3: multisyncStatusText = 'Timecode Not Present'; break
-				case 4: multisyncStatusText = 'Timecode Invalid'; break
-				case 5: multisyncStatusText = 'Outside Range'; break
-				default: multisyncStatusText = stats.multisyncStatus || 'Unknown'
+				case 0:
+					multisyncStatusText = 'Unset'
+					break
+				case 1:
+					multisyncStatusText = 'Working'
+					break
+				case 2:
+					multisyncStatusText = 'NTP Not Set'
+					break
+				case 3:
+					multisyncStatusText = 'Timecode Not Present'
+					break
+				case 4:
+					multisyncStatusText = 'Timecode Invalid'
+					break
+				case 5:
+					multisyncStatusText = 'Outside Range'
+					break
+				default:
+					multisyncStatusText = stats.multisyncStatus || 'Unknown'
 			}
 		}
 
@@ -725,9 +778,8 @@ class MakitoX4DecoderInstance extends InstanceBase {
 		variables[`${varPrefix}last_reset`] = stats.lastReset || 'Never'
 
 		// Simplified status for display
-		variables[`${varPrefix}signal`] = stats.state === 2 ? 'Good' :
-			stats.state === 1 ? 'No Signal' :
-				stats.state === -1 ? 'Error' : 'Offline'
+		variables[`${varPrefix}signal`] =
+			stats.state === 2 ? 'Good' : stats.state === 1 ? 'No Signal' : stats.state === -1 ? 'Error' : 'Offline'
 
 		this.setVariableValues(variables)
 
@@ -776,11 +828,20 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				// Map encapsulation type to protocol name
 				let protocol = 'Unknown'
 				switch (info.encapsulation) {
-					case 2: protocol = 'TS over UDP'; break
-					case 3: protocol = 'TS over RTP'; break
-					case 34: protocol = 'TS over SRT'; break
-					case 64: protocol = 'RTSP'; break
-					default: protocol = `Type ${info.encapsulation}`
+					case 2:
+						protocol = 'TS over UDP'
+						break
+					case 3:
+						protocol = 'TS over RTP'
+						break
+					case 34:
+						protocol = 'TS over SRT'
+						break
+					case 64:
+						protocol = 'RTSP'
+						break
+					default:
+						protocol = `Type ${info.encapsulation}`
 				}
 
 				// Parse connection state for SRT
@@ -871,19 +932,19 @@ class MakitoX4DecoderInstance extends InstanceBase {
 					if (decoderConfig && decoderConfig.info) {
 						this.decoderChoices.push({
 							id: i,
-							label: decoderConfig.info.name || `Decoder ${i}`
+							label: decoderConfig.info.name || `Decoder ${i}`,
 						})
 					} else {
 						this.decoderChoices.push({
 							id: i,
-							label: `Decoder ${i}`
+							label: `Decoder ${i}`,
 						})
 					}
 				} catch (error) {
 					// If decoder doesn't exist or error, still add it to list
 					this.decoderChoices.push({
 						id: i,
-						label: `Decoder ${i}`
+						label: `Decoder ${i}`,
 					})
 				}
 			}
@@ -899,12 +960,14 @@ class MakitoX4DecoderInstance extends InstanceBase {
 	}
 
 	getDecoderChoices() {
-		return this.decoderChoices || [
-			{ id: 0, label: 'Decoder 0' },
-			{ id: 1, label: 'Decoder 1' },
-			{ id: 2, label: 'Decoder 2' },
-			{ id: 3, label: 'Decoder 3' }
-		]
+		return (
+			this.decoderChoices || [
+				{ id: 0, label: 'Decoder 0' },
+				{ id: 1, label: 'Decoder 1' },
+				{ id: 2, label: 'Decoder 2' },
+				{ id: 3, label: 'Decoder 3' },
+			]
+		)
 	}
 
 	async getStreamList() {
@@ -918,7 +981,7 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				// Build choices array for dropdown
 				this.streamChoices = [{ id: '-1', label: 'No Stream' }]
 
-				streams.data.forEach(stream => {
+				streams.data.forEach((stream) => {
 					if (stream.info) {
 						const streamName = stream.info.name || `Stream ${stream.info.id}`
 						this.streamMap[stream.info.id] = streamName
@@ -933,7 +996,7 @@ class MakitoX4DecoderInstance extends InstanceBase {
 							2: 'UDP',
 							3: 'RTP',
 							34: 'SRT',
-							64: 'RTSP'
+							64: 'RTSP',
 						}
 						if (encapTypes[stream.info.encapsulation]) {
 							label += ` [${encapTypes[stream.info.encapsulation]}]`
@@ -941,14 +1004,14 @@ class MakitoX4DecoderInstance extends InstanceBase {
 
 						this.streamChoices.push({
 							id: String(stream.info.id),
-							label: label
+							label: label,
 						})
 					}
 				})
 
 				// Update stream count variable
 				this.setVariableValues({
-					stream_count: streams.data.length
+					stream_count: streams.data.length,
 				})
 
 				// Update decoder stream name variables based on assigned streams
@@ -958,11 +1021,11 @@ class MakitoX4DecoderInstance extends InstanceBase {
 						const streamId = config.streamId
 						if (streamId >= 0 && this.streamMap[streamId]) {
 							this.setVariableValues({
-								[`decoder${i}_stream_name`]: this.streamMap[streamId]
+								[`decoder${i}_stream_name`]: this.streamMap[streamId],
 							})
 						} else {
 							this.setVariableValues({
-								[`decoder${i}_stream_name`]: 'None'
+								[`decoder${i}_stream_name`]: 'None',
 							})
 						}
 					}
@@ -992,7 +1055,7 @@ class MakitoX4DecoderInstance extends InstanceBase {
 					autosave: presets.autosave,
 					active: presets.active,
 					activeIsStartup: presets.activeIsStartup,
-					activeWasModified: presets.activeWasModified
+					activeWasModified: presets.activeWasModified,
 				}
 				// Set variables for preset info
 				this.setVariableValues({
@@ -1004,9 +1067,9 @@ class MakitoX4DecoderInstance extends InstanceBase {
 
 				// Build preset choices for dropdown
 				if (presets.data && Array.isArray(presets.data)) {
-					this.presetChoices = presets.data.map(preset => ({
+					this.presetChoices = presets.data.map((preset) => ({
 						id: preset,
-						label: preset
+						label: preset,
 					}))
 
 					// Update actions with new preset choices
@@ -1033,7 +1096,7 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				this.setVariableValues({
 					preview_service: preview.service ? 'Enabled' : 'Disabled',
 					preview_port: preview.port || 8080,
-					preview_quality: preview.quality || 'Unknown'
+					preview_quality: preview.quality || 'Unknown',
 				})
 
 				this.log('debug', `Preview service: ${preview.service ? 'Enabled' : 'Disabled'} on port ${preview.port}`)
@@ -1050,7 +1113,14 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				if (imageData) {
 					// Process the image with Jimp
 					const image = await Jimp.read(imageData)
-					const resized = await image.scaleToFit(72, 72).quality(70).getBufferAsync(Jimp.MIME_PNG)
+					const resizedImage = JimpModule.Jimp ? image.scaleToFit({ w: 72, h: 72 }) : image.scaleToFit(72, 72)
+					if (typeof resizedImage.quality === 'function') {
+						resizedImage.quality(70)
+					}
+					const resized =
+						typeof resizedImage.getBufferAsync === 'function'
+							? await resizedImage.getBufferAsync(JIMP_MIME_PNG)
+							: await resizedImage.getBuffer(JIMP_MIME_PNG)
 
 					// Store the resized thumbnail as base64
 					this.decoderThumbnails[index] = `data:image/png;base64,${resized.toString('base64')}`

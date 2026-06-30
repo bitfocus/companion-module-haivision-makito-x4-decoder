@@ -33,8 +33,16 @@ module.exports = async function (self) {
 
 		// Preview Service
 		{
-			variableId: 'preview_enabled',
+			variableId: 'preview_service',
 			name: 'Preview Service Enabled',
+		},
+		{
+			variableId: 'preview_port',
+			name: 'Preview Service Port',
+		},
+		{
+			variableId: 'preview_quality',
+			name: 'Preview Service Quality',
 		},
 
 		// Stream Management
@@ -726,7 +734,9 @@ module.exports = async function (self) {
 		preset_count: 0,
 
 		// Preview Service
-		preview_enabled: 'Unknown',
+		preview_service: 'Unknown',
+		preview_port: 'Unknown',
+		preview_quality: 'Unknown',
 
 		// Stream Management
 		stream_count: 0,
