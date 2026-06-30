@@ -719,7 +719,16 @@ module.exports = async function (self) {
 		)
 	}
 
-	self.setVariableDefinitions(variables)
+	self.setVariableDefinitions(
+		Object.fromEntries(
+			variables.map(({ variableId, name }) => [
+				variableId,
+				{
+					name,
+				},
+			]),
+		),
+	)
 
 	// Set initial values
 	self.setVariableValues({

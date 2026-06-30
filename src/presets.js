@@ -2,6 +2,11 @@ const { combineRgb } = require('@companion-module/base')
 
 module.exports = function (self) {
 	const presets = []
+	const makeId = (value) =>
+		String(value)
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '_')
+			.replace(/^_+|_+$/g, '') || 'preset'
 
 	// Decoder control presets
 	presets.push({
@@ -293,5 +298,38 @@ module.exports = function (self) {
 		feedbacks: [],
 	})
 
-	self.setPresetDefinitions(presets)
+	const sections = []
+	const sectionsById = new Map()
+	const presetDefinitions = {}
+
+	for (const preset of presets) {
+		const { category = 'General', type: _type, ...presetDefinition } = preset
+		const sectionId = makeId(category)
+		let section = sectionsById.get(sectionId)
+
+		if (!section) {
+			section = {
+				id: sectionId,
+				name: category,
+				definitions: [],
+			}
+			sectionsById.set(sectionId, section)
+			sections.push(section)
+		}
+
+		let presetId = makeId(`${sectionId}_${presetDefinition.name}`)
+		let suffix = 2
+		while (presetDefinitions[presetId]) {
+			presetId = makeId(`${sectionId}_${presetDefinition.name}_${suffix}`)
+			suffix++
+		}
+
+		presetDefinitions[presetId] = {
+			...presetDefinition,
+			type: 'simple',
+		}
+		section.definitions.push(presetId)
+	}
+
+	self.setPresetDefinitions(sections, presetDefinitions)
 }
