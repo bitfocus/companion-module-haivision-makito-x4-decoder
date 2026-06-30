@@ -111,16 +111,14 @@ Stream state, multisync status, and trouble codes have their own numeric→text 
 - **New preset:** push a button definition in `src/presets.js`.
 - **Schema migrations:** if config field names/shapes change between releases, add an upgrade script to the array in `src/upgrades.js` (currently empty).
 
-## Known inconsistencies (treat as latent bugs, not patterns to copy)
+## Invariants to preserve
 
-These exist in the current code; be aware of them and prefer fixing over imitating:
+The following were reconciled during the v1.0.x stabilization pass — keep them aligned when adding code:
 
-- **Preset variable references use a `makitox4:` namespace and non-existent variable IDs** (e.g. `$(makitox4:decoder_state)`, `decoder_signal`, `device_name`, `decoder_resolution`, `decoder_latency`). The actual module connection label and the defined variables use the indexed `decoderN_*` scheme, so several presets in `src/presets.js` will render empty until reconciled.
-- **Some preset/preset-feedback `status` options use string values** (`'running'`, `'stopped'`, `'error'`) while the `decoder_status` feedback compares against numeric state codes (`0/1/2/-1`). String options won't match.
-- `select_decoder_source` reads `self.config.deviceNumber`, which is not a configured field (always falls back to `'1'`).
-- `getPreviewSettings()` writes `preview_service`/`preview_port`/`preview_quality`, but `src/variables.js` defines `preview_enabled` — names don't line up.
-
-When touching presets/feedbacks/variables, prefer aligning everything on the indexed `decoderN_*` variable scheme and numeric state codes.
+- **Presets reference the indexed variable scheme** (`decoder0_state`, `decoder0_video_input_resolution`, `decoder0_video_latency`, `decoder0_signal`, `device_type`, `device_serial`, …). Every `$(...)` reference in `src/presets.js` must point at a variable actually defined in `src/variables.js`. The label portion (`makitox4:`) is replaced by Companion with the real connection label at runtime.
+- **`decoder_status` (and any state-based feedback) compares numeric state codes** (`0` stopped, `1` no signal, `2` active, `-1` error). Preset `status` options must use these numeric strings, never words like `'running'`.
+- **Decoder-targeting actions/feedbacks read `action.options.deviceNumber` / `feedback.options.deviceNumber`**, never `self.config.deviceNumber` (there is no such config field).
+- **Every variable written via `setVariableValues()` must have a matching definition** in `src/variables.js`. The preview service writes `preview_service` / `preview_port` / `preview_quality`, which are defined there.
 
 ## Git & workflow notes
 
@@ -128,3 +126,4 @@ When touching presets/feedbacks/variables, prefer aligning everything on the ind
 - CI runs on every push via the shared bitfocus module-checks workflow — keep `companion/manifest.json` valid (id, runtime type `node22`, entrypoint `../index.js`).
 - Dependabot updates npm dependencies daily (`.github/dependabot.yml`).
 - Bump `version` in **both** `package.json` and `companion/manifest.json` together when releasing.
+- **Releasing:** the full process (version bump → tag `vX.Y.Z` → submit in the Bitfocus Developer Portal) lives in [`RELEASING.md`](./RELEASING.md). Planned work is tracked in [`ROADMAP.md`](./ROADMAP.md).
