@@ -1,4 +1,5 @@
 {
+	"type": "connection",
 	"id": "haivision-makito-x4-decoder",
 	"name": "haivision-makito-x4-decoder",
 	"shortname": "makito-x4-decoder",

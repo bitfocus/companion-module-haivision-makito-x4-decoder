@@ -78,11 +78,11 @@ Cached state lives on the instance: `this.decodersStatus`, `this.decodersConfig`
 
 `processDecoderStatus()` translates numeric API codes into human-readable strings and exposes both. Key mapping (`stats.state`):
 
-| Code | Meaning |
-|------|---------|
-| `0`  | Stopped |
-| `1`  | Started (No Signal) |
-| `2`  | Active (decoding) |
+| Code | Meaning                   |
+| ---- | ------------------------- |
+| `0`  | Stopped                   |
+| `1`  | Started (No Signal)       |
+| `2`  | Active (decoding)         |
 | `-1` | Error (see `troubleCode`) |
 
 Stream state, multisync status, and trouble codes have their own numeric→text maps in the same function. When adding feedbacks/actions that branch on decoder status, compare against these numeric `stats.state` values.

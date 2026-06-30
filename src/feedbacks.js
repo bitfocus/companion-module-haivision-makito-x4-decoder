@@ -6,11 +6,11 @@ module.exports = async function (self) {
 		return self.decoderChoices && self.decoderChoices.length > 0
 			? self.decoderChoices
 			: [
-				{ id: '0', label: 'Decoder 1' },
-				{ id: '1', label: 'Decoder 2' },
-				{ id: '2', label: 'Decoder 3' },
-				{ id: '3', label: 'Decoder 4' },
-			]
+					{ id: '0', label: 'Decoder 1' },
+					{ id: '1', label: 'Decoder 2' },
+					{ id: '2', label: 'Decoder 3' },
+					{ id: '3', label: 'Decoder 4' },
+				]
 	}
 
 	const deviceNumberOption = {
@@ -58,9 +58,7 @@ module.exports = async function (self) {
 			type: 'advanced',
 			name: 'Decoder State Color',
 			description: 'Change button color based on decoder state',
-			options: [
-				deviceNumberOption,
-			],
+			options: [deviceNumberOption],
 			callback: (feedback) => {
 				const deviceNum = feedback.options.deviceNumber
 				if (self.decodersStatus && self.decodersStatus[deviceNum]) {
@@ -117,9 +115,7 @@ module.exports = async function (self) {
 				bgcolor: combineRgb(0, 255, 0),
 				color: combineRgb(0, 0, 0),
 			},
-			options: [
-				deviceNumberOption,
-			],
+			options: [deviceNumberOption],
 			callback: (feedback) => {
 				const deviceNum = feedback.options.deviceNumber
 				if (self.decodersStatus && self.decodersStatus[deviceNum]) {
@@ -138,9 +134,7 @@ module.exports = async function (self) {
 				bgcolor: combineRgb(255, 0, 0),
 				color: combineRgb(255, 255, 255),
 			},
-			options: [
-				deviceNumberOption,
-			],
+			options: [deviceNumberOption],
 			callback: (feedback) => {
 				const deviceNum = feedback.options.deviceNumber
 				if (self.decodersStatus && self.decodersStatus[deviceNum]) {
@@ -155,14 +149,15 @@ module.exports = async function (self) {
 			type: 'advanced',
 			name: 'Decoder Thumbnail',
 			description: 'Display decoder thumbnail as button background',
-			options: [
-				deviceNumberOption,
-			],
+			options: [deviceNumberOption],
 			callback: (feedback) => {
 				const deviceNum = parseInt(feedback.options.deviceNumber)
 				self.log('debug', `Decoder thumbnail feedback called for device ${deviceNum}`)
 				self.log('debug', `decoderThumbnails exists: ${!!self.decoderThumbnails}`)
-				self.log('debug', `decoderThumbnails[${deviceNum}] exists: ${!!(self.decoderThumbnails && self.decoderThumbnails[deviceNum])}`)
+				self.log(
+					'debug',
+					`decoderThumbnails[${deviceNum}] exists: ${!!(self.decoderThumbnails && self.decoderThumbnails[deviceNum])}`,
+				)
 
 				if (self.decoderThumbnails && self.decoderThumbnails[deviceNum]) {
 					const thumbnail = self.decoderThumbnails[deviceNum]

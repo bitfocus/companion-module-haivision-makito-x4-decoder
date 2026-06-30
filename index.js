@@ -1,4 +1,4 @@
-const { InstanceBase, Regex, runEntrypoint, InstanceStatus } = require('@companion-module/base')
+const { InstanceBase, Regex, InstanceStatus } = require('@companion-module/base')
 const UpgradeScripts = require('./src/upgrades')
 const UpdateActions = require('./src/actions')
 const UpdateFeedbacks = require('./src/feedbacks')
@@ -103,7 +103,7 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				min: 1,
 				max: 60,
 				default: 5,
-				isVisible: (configValues) => configValues.polling === true,
+				isVisibleExpression: '$(options:polling)',
 			},
 		]
 	}
@@ -515,7 +515,7 @@ class MakitoX4DecoderInstance extends InstanceBase {
 				this.buildDeviceChoices()
 			}
 
-			this.checkFeedbacks()
+			this.checkAllFeedbacks()
 		} catch (error) {
 			this.log('debug', `Status poll failed: ${error.message}`)
 		}
@@ -1135,4 +1135,5 @@ class MakitoX4DecoderInstance extends InstanceBase {
 	}
 }
 
-runEntrypoint(MakitoX4DecoderInstance, UpgradeScripts)
+module.exports = MakitoX4DecoderInstance
+module.exports.UpgradeScripts = UpgradeScripts
