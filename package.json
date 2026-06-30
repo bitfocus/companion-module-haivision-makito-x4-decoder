@@ -12,13 +12,16 @@
 		"url": "git+https://github.com/bitfocus/companion-module-haivision-makito-x4-decoder.git"
 	},
 	"dependencies": {
-		"@companion-module/base": "~1.14.1"
+		"@companion-module/base": "^2.1.1"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.7.1",
-		"jimp": "^1.6.0",
-		"prettier": "^3.8.1"
+		"@companion-module/tools": "^3.0.2",
+		"eslint": "^10.6.0",
+		"jimp": "^1.6.1",
+		"prettier": "^3.9.4",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.62.1"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
-	"packageManager": "yarn@4.9.1"
+	"packageManager": "yarn@4.17.0"
 }

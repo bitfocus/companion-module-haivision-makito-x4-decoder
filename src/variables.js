@@ -117,7 +117,7 @@ module.exports = async function (self) {
 		{
 			variableId: 'device_temperature',
 			name: 'Temperature',
-		}
+		},
 	)
 
 	// Add variables for all 4 decoders (0-3 to match API indices)
@@ -715,7 +715,7 @@ module.exports = async function (self) {
 			{
 				variableId: `decoder${i}_stream_summary`,
 				name: `Decoder ${i} Stream Summary`,
-			}
+			},
 		)
 	}
 

@@ -4,11 +4,11 @@ module.exports = function (self) {
 		return self.decoderChoices && self.decoderChoices.length > 0
 			? self.decoderChoices
 			: [
-				{ id: '0', label: 'Decoder 1' },
-				{ id: '1', label: 'Decoder 2' },
-				{ id: '2', label: 'Decoder 3' },
-				{ id: '3', label: 'Decoder 4' },
-			]
+					{ id: '0', label: 'Decoder 1' },
+					{ id: '1', label: 'Decoder 2' },
+					{ id: '2', label: 'Decoder 3' },
+					{ id: '3', label: 'Decoder 4' },
+				]
 	}
 
 	const deviceNumberOption = {
@@ -93,7 +93,7 @@ module.exports = function (self) {
 					const deviceNum = action.options.deviceNumber
 					await self.makeRequest(`/apis/decoders/${deviceNum}/source`, 'PUT', {
 						type: action.options.sourceType,
-						source: action.options.source
+						source: action.options.source,
 					})
 					self.log('info', `Decoder source set to ${action.options.sourceType}: ${action.options.source}`)
 				} catch (error) {
@@ -143,12 +143,15 @@ module.exports = function (self) {
 							interval: action.options.interval,
 							enabled: true,
 							width: action.options.width,
-							height: action.options.height
+							height: action.options.height,
 						}
 
 						await self.makeRequest('/apis/services/preview', 'PUT', currentSettings)
 						const displayNum = deviceNum + 1
-						self.log('info', `Decoder ${displayNum} preview configured: ${action.options.width}x${action.options.height} @ ${action.options.interval}min`)
+						self.log(
+							'info',
+							`Decoder ${displayNum} preview configured: ${action.options.width}x${action.options.height} @ ${action.options.interval}min`,
+						)
 					}
 				} catch (error) {
 					self.log('error', `Failed to configure decoder preview: ${error.message}`)
@@ -182,15 +185,19 @@ module.exports = function (self) {
 					// Update stream assignment
 					const decoderData = {
 						...currentConfig.info,
-						streamId: streamId
+						streamId: streamId,
 					}
 
 					await self.makeRequest(`/apis/decoders/${deviceNum}`, 'PUT', decoderData)
 					const displayNum = parseInt(deviceNum) + 1
 
 					// Get stream name for logging
-					const streamName = streamId === -1 ? 'No Stream' :
-						(self.streamMap && self.streamMap[streamId]) ? self.streamMap[streamId] : `Stream ${streamId}`
+					const streamName =
+						streamId === -1
+							? 'No Stream'
+							: self.streamMap && self.streamMap[streamId]
+								? self.streamMap[streamId]
+								: `Stream ${streamId}`
 					self.log('info', `${streamName} assigned to Decoder ${displayNum}`)
 
 					// Refresh status
@@ -205,9 +212,7 @@ module.exports = function (self) {
 		},
 		unassign_stream_from_decoder: {
 			name: 'Unassign Stream from Decoder',
-			options: [
-				deviceNumberOption,
-			],
+			options: [deviceNumberOption],
 			callback: async (action) => {
 				try {
 					const deviceNum = action.options.deviceNumber
@@ -222,7 +227,7 @@ module.exports = function (self) {
 					// Remove stream assignment
 					const decoderData = {
 						...currentConfig.info,
-						streamId: -1
+						streamId: -1,
 					}
 
 					await self.makeRequest(`/apis/decoders/${deviceNum}`, 'PUT', decoderData)
@@ -241,9 +246,7 @@ module.exports = function (self) {
 		},
 		fetch_decoder_thumbnail: {
 			name: 'Fetch Decoder Thumbnail (Test)',
-			options: [
-				deviceNumberOption,
-			],
+			options: [deviceNumberOption],
 			callback: async (action) => {
 				try {
 					const deviceNum = parseInt(action.options.deviceNumber)
@@ -291,7 +294,7 @@ module.exports = function (self) {
 						presetName += '.cfg'
 					}
 					await self.makeRequest(`/apis/presets/${presetName}`, 'PUT', {
-						startup: action.options.startup
+						startup: action.options.startup,
 					})
 					self.log('info', `System preset saved: ${presetName}`)
 				} catch (error) {
@@ -394,7 +397,7 @@ module.exports = function (self) {
 					}
 					await self.makeRequest(`/apis/presets/${currentName}/rename`, 'PUT', {
 						name: newName,
-						overwriteIfAlreadyExists: action.options.overwrite
+						overwriteIfAlreadyExists: action.options.overwrite,
 					})
 					self.log('info', `System preset renamed from ${currentName} to ${newName}`)
 				} catch (error) {
@@ -463,7 +466,7 @@ module.exports = function (self) {
 			callback: async (action) => {
 				try {
 					await self.makeRequest('/apis/presets', 'PUT', {
-						autosave: action.options.autosave
+						autosave: action.options.autosave,
 					})
 					self.log('info', `Preset autosave ${action.options.autosave ? 'enabled' : 'disabled'}`)
 				} catch (error) {
@@ -489,7 +492,7 @@ module.exports = function (self) {
 					// Update only the enabled flag
 					const updatedSettings = {
 						...currentSettings,
-						enabled: action.options.enabled
+						enabled: action.options.enabled,
 					}
 
 					await self.makeRequest('/apis/services/preview', 'PUT', updatedSettings)
@@ -605,7 +608,8 @@ module.exports = function (self) {
 					return
 				}
 				try {
-					const streamName = (self.streamMap && self.streamMap[action.options.streamId]) || `Stream ${action.options.streamId}`
+					const streamName =
+						(self.streamMap && self.streamMap[action.options.streamId]) || `Stream ${action.options.streamId}`
 					await self.makeRequest(`/apis/streams/${action.options.streamId}`, 'DELETE')
 					self.log('info', `Stream "${streamName}" deleted`)
 					// Refresh stream list
@@ -666,7 +670,8 @@ module.exports = function (self) {
 					if (action.options.address) streamData.address = action.options.address
 					if (action.options.port) streamData.port = parseInt(action.options.port)
 
-					const streamName = (self.streamMap && self.streamMap[action.options.streamId]) || `Stream ${action.options.streamId}`
+					const streamName =
+						(self.streamMap && self.streamMap[action.options.streamId]) || `Stream ${action.options.streamId}`
 					await self.makeRequest(`/apis/streams/${action.options.streamId}`, 'PUT', streamData)
 					self.log('info', `Stream "${streamName}" updated`)
 					// Refresh stream list
