@@ -12,14 +12,14 @@ This module controls **Haivision Makito X4 Decoder** devices through their REST 
 
 When you add a connection, fill in the following fields:
 
-| Field | Description |
-|-------|-------------|
-| **Device IP** | IP address of the decoder. |
-| **Port** | API port. Defaults to `443`. The module uses **HTTPS when the port is `443`** and HTTP otherwise. Self-signed device certificates are accepted automatically. |
-| **Username** | API username (default `admin`). |
-| **Password** | API password. |
-| **Enable Polling** | When enabled, the module periodically refreshes device/decoder status so variables and feedbacks stay current. |
-| **Poll Interval (seconds)** | How often to poll (1–60 s, default 5). Only shown when polling is enabled. |
+| Field                       | Description                                                                                                                                                   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Device IP**               | IP address of the decoder.                                                                                                                                    |
+| **Port**                    | API port. Defaults to `443`. The module uses **HTTPS when the port is `443`** and HTTP otherwise. Self-signed device certificates are accepted automatically. |
+| **Username**                | API username (default `admin`).                                                                                                                               |
+| **Password**                | API password.                                                                                                                                                 |
+| **Enable Polling**          | When enabled, the module periodically refreshes device/decoder status so variables and feedbacks stay current.                                                |
+| **Poll Interval (seconds)** | How often to poll (1–60 s, default 5). Only shown when polling is enabled.                                                                                    |
 
 The connection status indicator turns green once the module authenticates and reads the device status successfully. Authentication is session-cookie based; if the session expires the module reports a connection failure and you may need to reconnect.
 
@@ -28,6 +28,7 @@ The connection status indicator turns green once the module authenticates and re
 ## Actions
 
 **Decoder control**
+
 - **Decoder Start / Stop / Toggle / Restart** — start, stop, toggle, or restart the selected decoder.
 - **Select Decoder Source** — set a decoder's source (Network / SRT / RTSP) by URL or address.
 - **Assign Stream to Decoder / Unassign Stream from Decoder** — attach or detach a configured stream.
@@ -35,14 +36,17 @@ The connection status indicator turns green once the module authenticates and re
 - **Fetch Decoder Thumbnail (Test)** — manually pull a decoder preview thumbnail.
 
 **Stream management**
+
 - **Create Stream** — create a stream (TS over UDP/RTP/SRT, or RTSP), with SRT mode and latency options.
 - **Edit Stream** — change a stream's name, address, or port.
 - **Delete Stream** — remove a stream (requires the **Confirm Delete** checkbox).
 
 **System presets** (device configuration snapshots, stored as `.cfg` files on the device)
+
 - **Save / Load / Delete / Rename / Duplicate System Preset**, **Set Startup Preset**, and **Set Preset Autosave**. Preset names automatically get a `.cfg` extension if omitted. Delete requires confirmation.
 
 **Device & service**
+
 - **Enable Preview Service** — turn the device's preview service on or off.
 - **Reboot Device** — reboot the decoder (requires the **Confirm Reboot** checkbox).
 - **Custom API Call** — send an arbitrary `GET`/`POST`/`PUT`/`DELETE` request to any `/apis/...` endpoint with an optional JSON body (advanced/diagnostic use).
@@ -75,4 +79,4 @@ Ready-made buttons are provided under these categories: **Decoder Control**, **D
 - **Variables show blank or stale:** ensure **Enable Polling** is on; increase the poll interval if the device is heavily loaded.
 - **No thumbnails:** thumbnails are fetched only periodically and primarily for active decoders. Use **Fetch Decoder Thumbnail (Test)** to pull one on demand, and make sure the device's preview service is enabled.
 
-For issues or feature requests, see the [project issue tracker](https://github.com/justinlauffer/companion-module-haivision-makitox4-decoder/issues).
+For issues or feature requests, see the [project issue tracker](https://github.com/bitfocus/companion-module-haivision-makito-x4-decoder/issues).

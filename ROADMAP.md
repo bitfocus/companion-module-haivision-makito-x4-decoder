@@ -52,11 +52,11 @@ Not scheduled; candidates pending interest.
 - 🔴 **Unit tests** for the pure mapping logic (state/stream-state/trouble-code/encapsulation → text). These need no hardware and would guard against regressions.
 - 🔴 **TypeScript migration** in line with newer `@companion-module/tools` tooling and ESLint v9 config.
 - 🔴 **Optional ESLint** via `generateEslintConfig` from `@companion-module/tools` (currently only Prettier is configured).
-- 🔴 **Companion Makito X4 *Encoder* module** as a separate `companion-module-*` repo, sharing patterns with this decoder module.
+- 🔴 **Companion Makito X4 _Encoder_ module** as a separate `companion-module-*` repo, sharing patterns with this decoder module.
 - 🔴 **Discovery / NMOS** support if the device exposes it.
 
 ---
 
 ## Contributing to the roadmap
 
-Have a request or a correction? Open an issue on the [tracker](https://github.com/justinlauffer/companion-module-haivision-makitox4-decoder/issues). When picking up an item, follow the conventions in [`CLAUDE.md`](./CLAUDE.md) and the release flow in [`RELEASING.md`](./RELEASING.md).
+Have a request or a correction? Open an issue on the [tracker](https://github.com/bitfocus/companion-module-haivision-makito-x4-decoder/issues). When picking up an item, follow the conventions in [`CLAUDE.md`](./CLAUDE.md) and the release flow in [`RELEASING.md`](./RELEASING.md).

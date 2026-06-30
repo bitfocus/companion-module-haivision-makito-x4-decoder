@@ -1,12 +1,12 @@
 {
-	"id": "haivision-makitox4-decoder",
-	"name": "haivision-makitox4-decoder",
-	"shortname": "makitox4-decoder",
+	"id": "haivision-makito-x4-decoder",
+	"name": "haivision-makito-x4-decoder",
+	"shortname": "makito-x4-decoder",
 	"description": "Controls Haivision Makito X4 Decoder.",
 	"version": "1.0.0",
 	"license": "MIT",
-	"repository": "git+https://github.com/justinlauffer/companion-module-haivision-makitox4-decoder.git",
-	"bugs": "https://github.com/justinlauffer/companion-module-haivision-makitox4-decoder/issues",
+	"repository": "git+https://github.com/bitfocus/companion-module-haivision-makito-x4-decoder.git",
+	"bugs": "https://github.com/bitfocus/companion-module-haivision-makito-x4-decoder/issues",
 	"maintainers": [
 		{
 			"name": "Justin Lauffer",
@@ -19,7 +19,7 @@
 		"apiVersion": "0.0.0",
 		"entrypoint": "../index.js"
 	},
-	"legacyIds": [],
+	"legacyIds": ["haivision-makitox4-decoder"],
 	"manufacturer": "Haivision",
 	"products": ["Makito X4 Decoder"],
 	"keywords": []

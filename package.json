@@ -1,5 +1,5 @@
 {
-	"name": "haivision-makitox4-decoder",
+	"name": "haivision-makito-x4-decoder",
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
@@ -9,7 +9,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/justinlauffer/companion-module-haivision-makitox4-decoder.git"
+		"url": "git+https://github.com/bitfocus/companion-module-haivision-makito-x4-decoder.git"
 	},
 	"dependencies": {
 		"@companion-module/base": "~1.14.1"

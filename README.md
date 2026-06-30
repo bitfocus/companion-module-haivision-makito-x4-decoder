@@ -1,4 +1,4 @@
-# companion-module-haivision-makitox4-decoder
+# companion-module-haivision-makito-x4-decoder
 
 A [Bitfocus Companion](https://bitfocus.io/companion) module for controlling Haivision Makito X4 Decoder devices over their REST API.
 
