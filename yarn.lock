@@ -12,13 +12,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@companion-module/base@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@companion-module/base@npm:2.1.1"
+"@companion-module/base@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "@companion-module/base@npm:2.1.2"
   dependencies:
     colord: "npm:^2.9.3"
-    tslib: "npm:^2.8.1"
-  checksum: 10c0/fc74d8fd5c91521c9560e50e831b57439135d9bf877f6c119981f7082c3cff4e83199425cf0d0274315172d6d85d99900bafb6c6b8fad22a08c39c778b13e816
+  checksum: 10c0/3c77e872026d0191f741ba7c95fdf58c749ffcfb0c1d4cc65f0eca95f3375453e24da78dca5a78bc9b6c6e0924e6b549d2f30b350679c496666d43b7232885a2
   languageName: node
   linkType: hard
 
@@ -1472,7 +1471,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "haivision-makito-x4-decoder@workspace:."
   dependencies:
-    "@companion-module/base": "npm:^2.1.1"
+    "@companion-module/base": "npm:^2.1.2"
     "@companion-module/tools": "npm:^3.0.2"
     eslint: "npm:^10.8.0"
     jimp: "npm:^1.6.1"
@@ -1983,13 +1982,6 @@ __metadata:
   peerDependencies:
     typescript: ">=4.8.4"
   checksum: 10c0/767849383c114e7f1971fa976b20e73ac28fd0c70d8d65c0004790bf4d8f89888c7e4cf6d5949f9c1beae9bc3c64835bef77bbe27fddf45a3c7b60cebcf85c8c
-  languageName: node
-  linkType: hard
-
-"tslib@npm:^2.8.1":
-  version: 2.8.1
-  resolution: "tslib@npm:2.8.1"
-  checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
   languageName: node
   linkType: hard
 
