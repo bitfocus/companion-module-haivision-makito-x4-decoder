@@ -12,7 +12,7 @@
 		"url": "git+https://github.com/bitfocus/companion-module-haivision-makito-x4-decoder.git"
 	},
 	"dependencies": {
-		"@companion-module/base": "^2.1.1"
+		"@companion-module/base": "^2.1.2"
 	},
 	"devDependencies": {
 		"@companion-module/tools": "^3.0.2",
