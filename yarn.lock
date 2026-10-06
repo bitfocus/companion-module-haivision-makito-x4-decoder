@@ -34,13 +34,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@companion-module/base@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "@companion-module/base@npm:2.1.1"
+"@companion-module/base@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@companion-module/base@npm:2.2.0"
   dependencies:
-    colord: "npm:^2.9.3"
-    tslib: "npm:^2.8.1"
-  checksum: 10c0/fc74d8fd5c91521c9560e50e831b57439135d9bf877f6c119981f7082c3cff4e83199425cf0d0274315172d6d85d99900bafb6c6b8fad22a08c39c778b13e816
+    colord: "npm:^2.9.4"
+    zod: "npm:^4.4.3"
+  checksum: 10c0/a51591c6d0a7e4aa16eedadd8d8727b769c0c4f4b60381600859a1aba20ad703f95ea4b8e3d8803e538b3e12ed088fe1e2e1d36c639d78237304f322113835cc
   languageName: node
   linkType: hard
 
@@ -1021,7 +1021,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colord@npm:^2.9.3":
+"colord@npm:^2.9.4":
   version: 2.10.0
   resolution: "colord@npm:2.10.0"
   checksum: 10c0/2f5d1d1759124f593deca17bbbab8a88bdc3ab68bbcc88db76c1192d9a5d575db202badde044bf61789561fa0ed7a9eb895382becad1af27ec65934c216e9e04
@@ -1518,7 +1518,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "haivision-makito-x4-decoder@workspace:."
   dependencies:
-    "@companion-module/base": "npm:^2.1.1"
+    "@companion-module/base": "npm:^2.2.0"
     "@companion-module/tools": "npm:^3.1.1"
     eslint: "npm:^10.12.0"
     jimp: "npm:^1.6.1"
@@ -2083,13 +2083,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.8.1":
-  version: 2.8.1
-  resolution: "tslib@npm:2.8.1"
-  checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
-  languageName: node
-  linkType: hard
-
 "type-check@npm:^0.4.0, type-check@npm:~0.4.0":
   version: 0.4.0
   resolution: "type-check@npm:0.4.0"
@@ -2233,6 +2226,13 @@ __metadata:
   version: 3.25.76
   resolution: "zod@npm:3.25.76"
   checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.4.3":
+  version: 4.6.5
+  resolution: "zod@npm:4.6.5"
+  checksum: 10c0/32eb6c5e98becbe045675b2141c3611451c16ba567f9779231d79af41c4d651ca1c22f154aef7e6c6e77b929f23e43f1154ca05b82e119e922353725d6776af5
   languageName: node
   linkType: hard
 
